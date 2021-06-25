@@ -9,7 +9,7 @@ from subprocess import Popen
 from network_ping_comparator import NetworkPingComparator, NETWORK_1, NETWORK_2
 
 LOOP_BACK_ADDRESS = "127.0.0.1"
-EXCLUDED_IP = NETWORK_1.split('0/')[0] + '1'
+EXCLUDED_HOST = "1"
 
 
 @pytest.fixture
@@ -79,11 +79,12 @@ def test_spawn_ping_procs(comparator, hosts):
 
 def test_spawn_ping_procs_excluded(comparator, hosts):
     """ Test spawning subprocesses for each IP address ping command excluding specified host"""
-    comparator.hosts = [str(host) for host in hosts]
-    comparator.hosts.remove(EXCLUDED_IP)
-    comparator.exclude_ip(EXCLUDED_IP)
+    host_list = [str(host) for host in hosts]
+    comparator.hosts = host_list
+    comparator.exclude_host(EXCLUDED_HOST)
+    host_list.remove(NETWORK_1.split('0/')[0] + EXCLUDED_HOST)
     procs = comparator._NetworkPingComparator__spawn_ping_procs()
-    assert all(isinstance(procs[ip], Popen) for ip in procs.keys())
+    assert all(isinstance(procs[ip], Popen) for ip in host_list)
 
 
 def test_ping_network_pass(mocker, comparator, hosts, procs):

@@ -21,10 +21,10 @@ NETWORK_1 = "192.168.1.0/24"
 NETWORK_2 = "192.168.2.0/24"
 
 # list of excluded addresses
-EXCLUDED_IP = ["0", "255"]
+EXCLUDED_HOST = ["0", "255"]
 
 comparator = NetworkPingComparator(NETWORK_1, NETWORK_2)
-comparator.exclude_ip(EXCLUDED_IP)
+comparator.exclude_host(EXCLUDED_HOST)
 comparator.run()
 result = comparator.output()
 if result:

@@ -13,7 +13,7 @@ NETWORK_1 = "192.168.1.0/24"
 NETWORK_2 = "192.168.2.0/24"
 
 # list of excluded addresses
-EXCLUDED_IP = ["0", "255"]
+EXCLUDED_HOST = ["0", "255"]
 
 
 class NetworkPingComparator:
@@ -34,7 +34,7 @@ class NetworkPingComparator:
         :param network_2: string representing a IPv4 network
         """
         self.networks = [network_1, network_2]
-        self.excluded_ip = None
+        self.excluded_host = None
         self.hosts = None
         self.ping_failures = None
 
@@ -82,14 +82,14 @@ class NetworkPingComparator:
             self.run()
             self.output()
 
-    def exclude_ip(self, excluded_ip: List[str]) -> None:
+    def exclude_host(self, excluded_host: List[str]) -> None:
         """
         Use to exclude one or more host IP addresses
 
-        :param excluded_ip: List of strings representing last octet of IPv4 address for excluded hosts
+        :param excluded_host: List of strings representing last octet of IPv4 address for excluded hosts
         :return: None
         """
-        self.excluded_ip = excluded_ip
+        self.excluded_host = excluded_host
 
     def not_pingable(self, network, ping_failures) -> None:
         """
@@ -140,8 +140,8 @@ class NetworkPingComparator:
         """
         procs = {}
         for host in self.hosts:
-            if self.excluded_ip:
-                if str(host).split('.')[3] in self.excluded_ip:
+            if self.excluded_host:
+                if str(host).split('.')[3] in self.excluded_host:
                     continue
             procs[host] = self.ping(host)
         return procs
@@ -163,7 +163,7 @@ class NetworkPingComparator:
 
 if __name__ == '__main__':
     comparator = NetworkPingComparator(NETWORK_1, NETWORK_2)
-    comparator.exclude_ip(EXCLUDED_IP)
+    comparator.exclude_host(EXCLUDED_HOST)
     comparator.run()
     result = comparator.output()
     if result:
