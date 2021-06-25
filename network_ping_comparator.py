@@ -99,21 +99,19 @@ class NetworkPingComparator:
         :param ping_failures: Manager.dict representing unresponsive hosts for each network
         :return: None
         """
-        failures = None
+        self.hosts = list(ipaddress.ip_network(network).hosts())
 
-        # loop for number of attempts to reach host
-        for _ in range(self.NUM_ATTEMPTS):
-            self.hosts = list(ipaddress.ip_network(network).hosts())
+        # ping network
+        failures = self.__ping_network()
 
-            # ping network
-            failures = self.__ping_network()
-
+        # loop for number of re-attempts to reach host
+        for _ in range(self.NUM_ATTEMPTS-1):
             # if there are failures try again
             if not failures:
                 return None
             else:
                 self.hosts = failures
-                self.__ping_network()
+                failures = self.__ping_network()
 
         ping_failures[network] = failures
 
