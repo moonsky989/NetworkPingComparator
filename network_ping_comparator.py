@@ -167,6 +167,6 @@ if __name__ == '__main__':
     comparator.run()
     result = comparator.output()
     if result:
-        print(f"Address(es) failed to respond to the ping: {result}")
+        print(f"Address(es) failed to match ping responses: {result}")
     else:
-        print("Complete, no addresses detected")
+        print("Complete, no address response mismatch detected")
