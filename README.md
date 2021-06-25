@@ -2,6 +2,15 @@
 
 NetworkPingComparator is a Python module for pinging two networks and displaying the difference in host reponses.
 
+## Installation
+Requires ```pytest~=6.2.4```
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install requirements.
+
+```bash
+pip install -r requirements
+```
+
 ## Usage
 
 ```python
@@ -22,6 +31,15 @@ if result:
     print(f"Address(es) failed to match ping responses: {result}")
 else:
     print("Complete, no address response mismatch detected")
+```
+
+## Test
+
+Unit tests are in ```./tests/```
+
+Run using pytest at root project directory
+```bash
+./pytest
 ```
 
 ## License
