@@ -50,7 +50,6 @@ class NetworkPingComparator:
             # start a process for each network
             p[network] = Process(target=self.not_pingable, args=(network, self.ping_failures))
             p[network].start()
-            print(f"Pinging network {network}")
         for network in self.networks:
             # wait for each process to complete
             p[network].join()
@@ -164,6 +163,7 @@ class NetworkPingComparator:
 if __name__ == '__main__':  # pragma: no cover
     comparator = NetworkPingComparator(NETWORK_1, NETWORK_2)
     comparator.exclude_host(EXCLUDED_HOST)
+    print(f"Pinging networks(s) {NETWORK_1}, {NETWORK_2}")
     comparator.run()
     result = comparator.output()
     if result:

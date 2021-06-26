@@ -27,10 +27,6 @@ comparator = NetworkPingComparator(NETWORK_1, NETWORK_2)
 comparator.exclude_host(EXCLUDED_HOST)
 comparator.run()
 result = comparator.output()
-if result:
-    print(f"Address(es) failed to match ping responses: {result}")
-else:
-    print("Complete, no address response mismatch detected")
 ```
 
 ## Test
