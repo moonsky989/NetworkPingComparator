@@ -46,14 +46,16 @@ def test_ping_windows_platform(mocker, comparator):
     """ Test that subprocess command is correct for windows """
     mocker.patch('platform.system', return_value='Windows')
     process = comparator.ping(LOOP_BACK_ADDRESS)
-    assert process.args == ['ping', '-n',  str(1), str(LOOP_BACK_ADDRESS), '-w', str(comparator.TIMEOUT*1000)]
+    assert process.args == ['ping', '-n',  str(comparator.NUM_PACKETS), str(LOOP_BACK_ADDRESS), '-w',
+                            str(comparator.TIMEOUT*1000)]
 
 
 def test_ping_linux_platform(mocker, comparator):
     """ Test that subprocess command is correct for linux """
     mocker.patch('platform.system', return_value='Linux')
     process = comparator.ping(LOOP_BACK_ADDRESS)
-    assert process.args == ['ping', '-c',  str(1), str(LOOP_BACK_ADDRESS), '-W', str(comparator.TIMEOUT)]
+    assert process.args == ['ping', '-c',  str(comparator.NUM_PACKETS), str(LOOP_BACK_ADDRESS), '-W',
+                            str(comparator.TIMEOUT)]
 
 
 def test_exlude_host(comparator):
