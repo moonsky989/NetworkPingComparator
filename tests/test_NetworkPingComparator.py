@@ -165,3 +165,12 @@ def test_output_fail_net2(comparator):
     """ Test output for failure on network 2 """
     comparator.ping_failures = {NETWORK_1: [], NETWORK_2: [NETWORK_2.split('0/')[0] + "20"]}
     assert comparator.output() == [NETWORK_2.split('0/')[0] + "20"]
+
+
+def test_output_before_run(mocker, comparator):
+    def set_ping_failures():
+        comparator.ping_failures = {NETWORK_1: [], NETWORK_2: []}
+    mocker.patch.object(Process, 'start', return_value=None)
+    mocker.patch.object(Process, 'join', side_effect=set_ping_failures)
+    comparator.output()
+    assert comparator.output() == []
