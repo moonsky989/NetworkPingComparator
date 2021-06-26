@@ -86,12 +86,12 @@ def test_spawn_ping_procs(comparator, hosts):
 
 def test_spawn_ping_procs_excluded(comparator, hosts):
     """ Test spawning subprocesses for each IP address ping command excluding specified host"""
-    host_list = [str(host) for host in hosts]
-    comparator.hosts = host_list
-    comparator.exclude_host(EXCLUDED_HOST)
-    host_list.remove(NETWORK_1.split('0/')[0] + EXCLUDED_HOST)
+    comparator.hosts = [str(host) for host in hosts]
+    comparator.exclude_host([EXCLUDED_HOST])
+    expected_hosts = [str(host) for host in hosts]
+    expected_hosts.remove(NETWORK_1.split('0/')[0] + EXCLUDED_HOST)
     procs = comparator._NetworkPingComparator__spawn_ping_procs()
-    assert all(isinstance(procs[ip], Popen) for ip in host_list)
+    assert all(isinstance(procs[ip], Popen) for ip in expected_hosts)
 
 
 def test_ping_network_pass(mocker, comparator, hosts, procs):
