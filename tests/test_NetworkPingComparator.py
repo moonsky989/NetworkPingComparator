@@ -114,13 +114,13 @@ def test_ping_network_fail(mocker, comparator, hosts, procs):
     assert failures == [ip for ip in hosts]
 
 
-def test_not_pingable_pass(mocker, comparator, hosts):
+def test_not_pingable_all_pass(mocker, comparator, hosts):
     """ Test retry logic for ping attempts (passing) """
     mocker.patch.object(NetworkPingComparator, '_NetworkPingComparator__ping_network')
     NetworkPingComparator._NetworkPingComparator__ping_network.return_value = []
     failures = {}
     comparator.not_pingable(NETWORK_1, ping_failures=failures)
-    assert failures == {}
+    assert failures == {NETWORK_1: []}
 
 
 def test_not_pingable_all_fail(mocker, comparator, hosts):
@@ -142,6 +142,7 @@ def test_not_pingable_one_fail(mocker, comparator, hosts):
 
 
 def test_run(mocker, comparator):
+    """ Test that run initializes ping_failures """
     mocker.patch.object(Process, 'start', return_value=None)
     mocker.patch.object(Process, 'join', return_value=None)
     comparator.run()

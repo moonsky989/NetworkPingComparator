@@ -108,7 +108,7 @@ class NetworkPingComparator:
         for _ in range(self.NUM_ATTEMPTS-1):
             # if there are failures try again
             if not failures:
-                return None
+                break
             else:
                 self.hosts = failures
                 failures = self.__ping_network()
