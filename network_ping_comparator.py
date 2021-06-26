@@ -161,7 +161,7 @@ class NetworkPingComparator:
                      stdout=DEVNULL, stderr=STDOUT)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     comparator = NetworkPingComparator(NETWORK_1, NETWORK_2)
     comparator.exclude_host(EXCLUDED_HOST)
     comparator.run()

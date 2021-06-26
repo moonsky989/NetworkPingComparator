@@ -3,6 +3,8 @@ Unit tests for NetworkPingComparator
 """
 
 import ipaddress
+from multiprocessing import Process
+from multiprocessing.managers import BaseProxy
 import pytest
 from subprocess import Popen
 
@@ -52,6 +54,11 @@ def test_ping_linux_platform(mocker, comparator):
     mocker.patch('platform.system', return_value='Linux')
     process = comparator.ping(LOOP_BACK_ADDRESS)
     assert process.args == ['ping', '-c',  str(1), str(LOOP_BACK_ADDRESS), '-W', str(comparator.TIMEOUT)]
+
+
+def test_exlude_host(comparator):
+    comparator.exclude_host(LOOP_BACK_ADDRESS)
+    assert comparator.excluded_host == LOOP_BACK_ADDRESS
 
 
 def test_ping_pass(mocker, comparator):
@@ -130,6 +137,13 @@ def test_not_pingable_one_fail(mocker, comparator, hosts):
     failures = {NETWORK_1: hosts[0]}
     comparator.not_pingable(NETWORK_1, ping_failures=failures)
     assert failures == {NETWORK_1: NetworkPingComparator._NetworkPingComparator__ping_network.return_value}
+
+
+def test_run(mocker, comparator):
+    mocker.patch.object(Process, 'start', return_value=None)
+    mocker.patch.object(Process, 'join', return_value=None)
+    comparator.run()
+    assert isinstance(comparator.ping_failures, BaseProxy)
 
 
 def test_output_pass(comparator):
