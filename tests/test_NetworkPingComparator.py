@@ -8,8 +8,11 @@ from multiprocessing.managers import BaseProxy
 import pytest
 from subprocess import Popen
 
-from network_ping_comparator import NetworkPingComparator, NETWORK_1, NETWORK_2
+from network_ping_comparator import NetworkPingComparator
 
+# define test parameters
+NETWORK_1 = "192.168.1.0/24"
+NETWORK_2 = "192.168.2.0/24"
 LOOP_BACK_ADDRESS = "127.0.0.1"
 EXCLUDED_HOST = "1"
 

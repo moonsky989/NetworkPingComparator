@@ -8,13 +8,6 @@ import platform
 from subprocess import Popen, DEVNULL, STDOUT
 from typing import List
 
-# define networks to test
-NETWORK_1 = "192.168.1.0/24"
-NETWORK_2 = "192.168.2.0/24"
-
-# list of excluded addresses
-EXCLUDED_HOST = ["0", "255"]
-
 
 class NetworkPingComparator:
     """
@@ -161,6 +154,14 @@ class NetworkPingComparator:
 
 
 if __name__ == '__main__':  # pragma: no cover
+
+    # define networks to test
+    NETWORK_1 = "192.168.1.0/24"
+    NETWORK_2 = "192.168.2.0/24"
+
+    # list of excluded addresses
+    EXCLUDED_HOST = ["0", "255"]
+
     comparator = NetworkPingComparator(NETWORK_1, NETWORK_2)
     comparator.exclude_host(EXCLUDED_HOST)
     print(f"Pinging networks(s) {NETWORK_1}, {NETWORK_2}")
