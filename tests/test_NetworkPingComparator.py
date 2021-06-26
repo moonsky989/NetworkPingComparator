@@ -168,6 +168,7 @@ def test_output_fail_net2(comparator):
 
 
 def test_output_before_run(mocker, comparator):
+    """ Test output called before run() is called """
     def set_ping_failures():
         comparator.ping_failures = {NETWORK_1: [], NETWORK_2: []}
     mocker.patch.object(Process, 'start', return_value=None)
